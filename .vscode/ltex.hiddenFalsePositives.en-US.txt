@@ -1,0 +1,1 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QR-markdown (RMD) is one solution to this, but is embedded in the large rstudio application.\\E$"}
