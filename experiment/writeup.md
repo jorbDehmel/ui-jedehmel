@@ -40,6 +40,8 @@ Jordan Dehmel, UI Design, Spring '25
 The following are both experimental design points and things I
 will say to the subject before beginning:
 
+- I will ask them about their experience in CS and math,
+    especially in writing reports
 - I will have my paper design and simulate the computer
 - I will instruct them to narrate their thoughts and actions,
     and I will simulate those actions
@@ -58,3 +60,23 @@ Test subject criteria:
 ---
 
 ## Post-Test Reflection
+
+1. Task 1 was a partial success: She was able to create a new
+    document, but there was no clear way to make a new file in
+    that document's folder, and she made a second document
+    instead.
+2. Task 2 was a success with notes. She found it unclear how to
+    find help for a specific keyword, and suggested a search
+    function. She was able to navigate back to the home menu
+    and open an existing document, although she suggested
+    different verbiage for the button doing so.
+3. Task 3 was a partial success. She was able to create a new
+    document and navigate to the export menu, but was unable to
+    proceed without further direction. She found this menu
+    overly technical.
+
+The overall impression was that the app was overly technical and
+lacking in help. A search bar for keyword help and an "advanced
+settings" submenu would likely solve these problems. The menu's
+"edit" button should also say something more like "open", and
+the help menu should be more intuitive.
