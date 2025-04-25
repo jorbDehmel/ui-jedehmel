@@ -31,8 +31,18 @@ class ExportState extends State<Export> {
         },
       ),
     );
-
-    targetFile = "$filepath.md";
+    targetFile = "$filepath.output";
+    settings.then((resolved) {
+      if (targetFile.startsWith("$filepath.")) {
+        setState(() {
+          if (resolved.getString("markdown_or_latex")! == "latex") {
+            targetFile = "$filepath.tex";
+          } else {
+            targetFile = "$filepath.md";
+          }
+        });
+      }
+    });
   }
 
   final String filepath;
@@ -41,13 +51,10 @@ class ExportState extends State<Export> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Export Document"),
-      ),
-      body: Column(
+    return AlertDialog(
+      content: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -122,12 +129,18 @@ class ExportState extends State<Export> {
                 showDialog(
                   context: context,
                   builder:
-                      (context) => AlertDialog(
-                        content: Center(
-                          child: const Text(
-                            "Success! Your file has been exported.",
+                      (context) => Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AlertDialog(
+                            content: Center(
+                              child: const Text(
+                                "Success! Your file has been exported.",
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                 );
               } else {

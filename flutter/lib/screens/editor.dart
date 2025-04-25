@@ -40,6 +40,17 @@ class EditorPageState extends State<EditorPage> {
             onPressed: () async {
               // Save file
               await File(filepath).writeAsString(controller.text);
+              showDialog(
+                context: context,
+                builder:
+                    (context) => AlertDialog(
+                      content: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Text('Your file has been saved.')],
+                      ),
+                    ),
+              );
             },
             child: const Text('Save'),
           ),
@@ -69,6 +80,7 @@ class EditorPageState extends State<EditorPage> {
                 controller: editingController,
                 notifier: notifier,
               ),
+              VerticalDivider(),
               DefaultCodeChunkIndicator(
                 width: 20,
                 controller: chunkController,

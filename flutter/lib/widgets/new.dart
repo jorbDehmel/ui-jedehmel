@@ -10,7 +10,7 @@ class NewProject extends StatefulWidget {
 }
 
 class NewProjectState extends State<NewProject> {
-  String _filepath = 'foo.jmd';
+  String _filepath = 'writeup.jmd';
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +23,7 @@ class NewProjectState extends State<NewProject> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(_filepath),
+              Spacer(),
               ElevatedButton(
                 key: ValueKey('new.select_file'),
                 onPressed: () async {
@@ -35,10 +36,11 @@ class NewProjectState extends State<NewProject> {
                     }
                   });
                 },
-                child: const Text('Select file'),
+                child: const Text('Select file to create'),
               ),
             ],
           ),
+          Divider(),
           ElevatedButton(
             key: ValueKey('new.editor'),
             onPressed: () {

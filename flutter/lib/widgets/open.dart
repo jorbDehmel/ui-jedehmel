@@ -23,6 +23,7 @@ class OpenProjectState extends State<OpenProject> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(_filepath),
+              Spacer(),
               ElevatedButton(
                 key: ValueKey('open.select_file'),
                 onPressed: () async {
@@ -33,10 +34,11 @@ class OpenProjectState extends State<OpenProject> {
                     }
                   });
                 },
-                child: const Text('Select file'),
+                child: const Text('Select file to open'),
               ),
             ],
           ),
+          Divider(),
           ElevatedButton(
             key: ValueKey('open.editor'),
             onPressed: () {
@@ -48,7 +50,7 @@ class OpenProjectState extends State<OpenProject> {
                 ),
               );
             },
-            child: const Text("Create Project"),
+            child: const Text("Open"),
           ),
         ],
       ),

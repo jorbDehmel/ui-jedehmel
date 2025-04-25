@@ -41,8 +41,10 @@ class MyHomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          spacing: 10.0,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          mainAxisSize: MainAxisSize.min,
+          children: [
             ElevatedButton(
               key: ValueKey('main.new'),
               onPressed: () {
