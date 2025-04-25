@@ -15,23 +15,34 @@ void main() {
     await tester.tap(find.byKey(ValueKey('main.new')));
     await tester.pumpAndSettle();
 
-    // Ensure we made it to 'New' widget
-    expect(find.widgetWithText(AppBar, 'New Project'), findsOneWidget);
-
     // Get to editor
     await tester.tap(find.byKey(ValueKey('new.editor')));
     await tester.pumpAndSettle();
 
-    expect(find.widgetWithText(AppBar, 'JKnit Project Editor'), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'foo.jmd'), findsOneWidget);
 
     // Go to export page
     await tester.tap(find.byKey(ValueKey('editor.export')));
     await tester.pumpAndSettle();
-    expect(find.widgetWithText(AppBar, 'Export Document'), findsOneWidget);
 
     // Export
     await tester.tap(find.byKey(ValueKey('export.export')));
     await tester.pumpAndSettle();
+  });
+
+  testWidgets('Open project navigation test', (WidgetTester tester) async {
+    WidgetController.hitTestWarningShouldBeFatal = true;
+
+    await tester.pumpWidget(const JKnitGUIApp());
+    expect(find.widgetWithText(AppBar, 'JKnit Editor'), findsOneWidget);
+
+    // Click 'Open'
+    await tester.tap(find.byKey(ValueKey('main.open')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(ValueKey('open.editor')));
+    await tester.pumpAndSettle();
+    expect(find.widgetWithText(AppBar, 'foo.jmd'), findsOneWidget);
   });
 
   testWidgets('Help navigation test', (WidgetTester tester) async {

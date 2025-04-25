@@ -14,48 +14,45 @@ class NewProjectState extends State<NewProject> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("New Project"),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(_filepath),
-                ElevatedButton(
-                  key: ValueKey('new.select_file'),
-                  onPressed: () async {
-                    setState(() async {
-                      final FileSaveLocation? result = await getSaveLocation(
-                        suggestedName: _filepath,
-                      );
-                      if (result != null) {
-                        _filepath = result.path;
-                      }
-                    });
-                  },
-                  child: const Text('Select file'),
+    return AlertDialog(
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_filepath),
+              ElevatedButton(
+                key: ValueKey('new.select_file'),
+                onPressed: () async {
+                  setState(() async {
+                    final FileSaveLocation? result = await getSaveLocation(
+                      suggestedName: _filepath,
+                    );
+                    if (result != null) {
+                      _filepath = result.path;
+                    }
+                  });
+                },
+                child: const Text('Select file'),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            key: ValueKey('new.editor'),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditorPage(filepath: _filepath),
                 ),
-              ],
-            ),
-            ElevatedButton(
-              key: ValueKey('new.editor'),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditorPage(filepath: _filepath),
-                  ),
-                );
-              },
-              child: const Text("Create Project"),
-            ),
-          ],
-        ),
+              );
+            },
+            child: const Text("Create Project"),
+          ),
+        ],
       ),
     );
   }

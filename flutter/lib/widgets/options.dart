@@ -19,7 +19,7 @@ openOptions(context) {
 }
 
 class Options extends StatefulWidget {
-  Options({super.key, required this.prefs});
+  const Options({super.key, required this.prefs});
   final SharedPreferencesWithCache prefs;
 
   @override
@@ -50,108 +50,94 @@ class OptionsState extends State<Options> {
       prefs.setBool('force_fancy', false);
     }
 
-    // if (!prefs.containsKey('settings_files')) {
-    //   prefs.setStringList('settings_files', ['fizz.json', 'buzz.json']);
-    // }
-    // var settingsFiles = prefs.getStringList('settings_files')!;
-    // var settingsFilesList = Column(
-    //   children: List<Widget>.generate(settingsFiles.length, (i) {
-    //     return Row(
-    //       children: [
-    //         Text(settingsFiles[i]),
-    //         ElevatedButton(onPressed: () {}, child: const Text('-')),
-    //       ],
-    //     );
-    //   }),
-    // );
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Options"),
       ),
-      body: Center(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Text('Treat all Warnings as Errors'),
-                Switch(
-                  key: ValueKey('options.warnings_to_errors'),
-                  value: prefs.getBool('warnings_to_errors')!,
-                  onChanged: (value) {
-                    setState(() {
-                      prefs.setBool('warnings_to_errors', value);
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Text('Enable Log'),
-                Switch(
-                  key: ValueKey('options.enable_log'),
-                  value: prefs.getBool('enable_log')!,
-                  onChanged: (value) {
-                    setState(() {
-                      prefs.setBool('enable_log', value);
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Text('Enable Timer'),
-                Switch(
-                  key: ValueKey('options.enable_timer'),
-                  value: prefs.getBool('enable_timer')!,
-                  onChanged: (value) {
-                    setState(() {
-                      prefs.setBool('enable_timer', value);
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Text('Force Fancy Typesetting'),
-                Switch(
-                  key: ValueKey('options.force_fancy'),
-                  value: prefs.getBool('force_fancy')!,
-                  onChanged: (value) {
-                    setState(() {
-                      prefs.setBool('force_fancy', value);
-                    });
-                  },
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                const Text('Output File Type'),
-                DropdownMenu<String>(
-                  key: ValueKey('options.markdown_or_latex'),
-                  dropdownMenuEntries: [
-                    DropdownMenuEntry(
-                      value: 'markdown',
-                      label: 'MarkDown (.md)',
-                    ),
-                    DropdownMenuEntry(value: 'latex', label: 'LaTeX (.tex)'),
-                  ],
-                  initialSelection: prefs.getString('markdown_or_latex')!,
-                  onSelected: (value) {
-                    setState(() {
-                      prefs.setString('markdown_or_latex', value!);
-                    });
-                  },
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Treat all Warnings as Errors'),
+              Switch(
+                key: ValueKey('options.warnings_to_errors'),
+                value: prefs.getBool('warnings_to_errors')!,
+                onChanged: (value) {
+                  setState(() {
+                    prefs.setBool('warnings_to_errors', value);
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Enable Log'),
+              Switch(
+                key: ValueKey('options.enable_log'),
+                value: prefs.getBool('enable_log')!,
+                onChanged: (value) {
+                  setState(() {
+                    prefs.setBool('enable_log', value);
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Enable Timer'),
+              Switch(
+                key: ValueKey('options.enable_timer'),
+                value: prefs.getBool('enable_timer')!,
+                onChanged: (value) {
+                  setState(() {
+                    prefs.setBool('enable_timer', value);
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Force Fancy Typesetting'),
+              Switch(
+                key: ValueKey('options.force_fancy'),
+                value: prefs.getBool('force_fancy')!,
+                onChanged: (value) {
+                  setState(() {
+                    prefs.setBool('force_fancy', value);
+                  });
+                },
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Output File Type'),
+              DropdownMenu<String>(
+                key: ValueKey('options.markdown_or_latex'),
+                dropdownMenuEntries: [
+                  DropdownMenuEntry(value: 'markdown', label: 'MarkDown (.md)'),
+                  DropdownMenuEntry(value: 'latex', label: 'LaTeX (.tex)'),
+                ],
+                initialSelection: prefs.getString('markdown_or_latex')!,
+                onSelected: (value) {
+                  setState(() {
+                    prefs.setString('markdown_or_latex', value!);
+                  });
+                },
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

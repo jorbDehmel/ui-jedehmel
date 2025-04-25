@@ -14,46 +14,43 @@ class OpenProjectState extends State<OpenProject> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Open Project"),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Text(_filepath),
-                ElevatedButton(
-                  key: ValueKey('open.select_file'),
-                  onPressed: () async {
-                    setState(() async {
-                      final result = await openFile();
-                      if (result != null) {
-                        _filepath = result.path;
-                      }
-                    });
-                  },
-                  child: const Text('Select file'),
+    return AlertDialog(
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(_filepath),
+              ElevatedButton(
+                key: ValueKey('open.select_file'),
+                onPressed: () async {
+                  setState(() async {
+                    final result = await openFile();
+                    if (result != null) {
+                      _filepath = result.path;
+                    }
+                  });
+                },
+                child: const Text('Select file'),
+              ),
+            ],
+          ),
+          ElevatedButton(
+            key: ValueKey('open.editor'),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditorPage(filepath: 'foo.jmd'),
                 ),
-              ],
-            ),
-            ElevatedButton(
-              key: ValueKey('open.editor'),
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditorPage(filepath: 'foo.jmd'),
-                  ),
-                );
-              },
-              child: const Text("Create Project"),
-            ),
-          ],
-        ),
+              );
+            },
+            child: const Text("Create Project"),
+          ),
+        ],
       ),
     );
   }

@@ -1,3 +1,8 @@
+/*
+TODO:
+- Make the UI better
+*/
+
 import 'package:flutter/material.dart';
 import 'widgets/new.dart';
 import 'widgets/open.dart';
