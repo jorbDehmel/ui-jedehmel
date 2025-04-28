@@ -63,7 +63,11 @@ class HelpPageState extends State<HelpPage> {
         children: [
           Column(children: lhs),
           VerticalDivider(),
-          Column(children: [Text(screens[curScreen]!)]),
+          Expanded(
+            child: ListView(
+              children: [Text(screens[curScreen]!, textAlign: TextAlign.left)],
+            ),
+          ),
         ],
       ),
     );

@@ -46,7 +46,7 @@ class OpenProjectState extends State<OpenProject> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditorPage(filepath: 'foo.jmd'),
+                  builder: (context) => EditorPage(filepath: 'writeup.jmd'),
                 ),
               );
             },

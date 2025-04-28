@@ -14,13 +14,7 @@ class EditorPage extends StatefulWidget {
 }
 
 class EditorPageState extends State<EditorPage> {
-  EditorPageState({required this.filepath});
-  final String filepath;
-
-  final controller = CodeLineEditingController();
-
-  @override
-  Widget build(BuildContext context) {
+  EditorPageState({required this.filepath}) {
     final f = File(filepath);
     if (f.existsSync()) {
       f.readAsString().then((str) {
@@ -28,8 +22,24 @@ class EditorPageState extends State<EditorPage> {
           controller.text = str;
         });
       });
+    } else {
+      // Default file contents
+      controller.text =
+          "\n# Hello, world!\n\nHere is some normal text.\n"
+          "The following is running `python` code.\n\n"
+          "```python\nprint('Hello, world!')\n```\n\n"
+          "When exported, the output will be inserted here.\n";
     }
+  }
 
+  final String filepath;
+
+  final controller = CodeLineEditingController(
+    options: CodeLineOptions(indentSize: 2),
+  );
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -80,7 +90,6 @@ class EditorPageState extends State<EditorPage> {
                 controller: editingController,
                 notifier: notifier,
               ),
-              VerticalDivider(),
               DefaultCodeChunkIndicator(
                 width: 20,
                 controller: chunkController,

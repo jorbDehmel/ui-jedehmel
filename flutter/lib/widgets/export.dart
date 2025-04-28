@@ -90,6 +90,7 @@ class ExportState extends State<Export> {
             },
             child: const Text('Options'),
           ),
+          Divider(),
           ElevatedButton(
             key: ValueKey('export.export'),
             onPressed: () async {

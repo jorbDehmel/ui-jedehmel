@@ -1,6 +1,7 @@
 /*
 TODO:
 - Make the UI better
+- More help text
 */
 
 import 'package:flutter/material.dart';
@@ -19,32 +20,29 @@ class JKnitGUIApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'JKnit Editor',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'JKnit Editor'),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(title),
-      ),
       body: Center(
         child: Column(
-          spacing: 10.0,
+          spacing: 5.0,
           mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
+            Text('JKnit Editor', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('Create Documentation with Embedded Running Code'),
             ElevatedButton(
               key: ValueKey('main.new'),
               onPressed: () {

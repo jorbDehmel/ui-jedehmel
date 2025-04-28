@@ -7,9 +7,7 @@ void main() {
     WidgetController.hitTestWarningShouldBeFatal = true;
 
     await tester.pumpWidget(const JKnitGUIApp());
-
     // We should be on the 'main' page
-    expect(find.widgetWithText(AppBar, 'JKnit Editor'), findsOneWidget);
 
     // Click 'New'
     await tester.tap(find.byKey(ValueKey('main.new')));
@@ -19,7 +17,7 @@ void main() {
     await tester.tap(find.byKey(ValueKey('new.editor')));
     await tester.pumpAndSettle();
 
-    expect(find.widgetWithText(AppBar, 'foo.jmd'), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'writeup.jmd'), findsOneWidget);
 
     // Go to export page
     await tester.tap(find.byKey(ValueKey('editor.export')));
@@ -34,7 +32,6 @@ void main() {
     WidgetController.hitTestWarningShouldBeFatal = true;
 
     await tester.pumpWidget(const JKnitGUIApp());
-    expect(find.widgetWithText(AppBar, 'JKnit Editor'), findsOneWidget);
 
     // Click 'Open'
     await tester.tap(find.byKey(ValueKey('main.open')));
@@ -42,16 +39,14 @@ void main() {
 
     await tester.tap(find.byKey(ValueKey('open.editor')));
     await tester.pumpAndSettle();
-    expect(find.widgetWithText(AppBar, 'foo.jmd'), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'writeup.jmd'), findsOneWidget);
   });
 
   testWidgets('Help navigation test', (WidgetTester tester) async {
     WidgetController.hitTestWarningShouldBeFatal = true;
 
     await tester.pumpWidget(const JKnitGUIApp());
-
     // We should be on the 'main' page
-    expect(find.widgetWithText(AppBar, 'JKnit Editor'), findsOneWidget);
 
     // Click 'Help'
     await tester.tap(find.byKey(ValueKey('main.help')));
