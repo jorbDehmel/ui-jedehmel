@@ -2,7 +2,12 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:re_editor/re_editor.dart";
 import "package:re_highlight/languages/markdown.dart";
-import "package:re_highlight/styles/base16/dark-violet.dart";
+import "package:re_highlight/styles/base16/ia-light.dart";
+import "package:re_highlight/styles/base16/mexico-light.dart";
+import "package:re_highlight/styles/shades-of-purple.dart";
+import "package:re_highlight/styles/stackoverflow-light.dart";
+import "package:re_highlight/styles/tokyo-night-light.dart";
+import "package:re_highlight/styles/xcode.dart";
 import "../widgets/export.dart";
 
 class EditorPage extends StatefulWidget {
@@ -34,9 +39,7 @@ class EditorPageState extends State<EditorPage> {
 
   final String filepath;
 
-  final controller = CodeLineEditingController(
-    options: CodeLineOptions(indentSize: 2),
-  );
+  final controller = CodeLineEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +75,11 @@ class EditorPageState extends State<EditorPage> {
         autofocus: true,
         wordWrap: false,
         style: CodeEditorStyle(
-          fontSize: 20.0,
+          fontFamily: 'mono',
+          fontSize: 24.0,
           codeTheme: CodeHighlightTheme(
             languages: {'json': CodeHighlightThemeMode(mode: langMarkdown)},
-            theme: darkVioletTheme,
+            theme: stackoverflowLightTheme,
           ),
         ),
         indicatorBuilder: (

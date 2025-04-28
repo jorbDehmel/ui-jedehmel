@@ -1,9 +1,3 @@
-/*
-TODO:
-- Make the UI better
-- More help text
-*/
-
 import 'package:flutter/material.dart';
 import 'widgets/new.dart';
 import 'widgets/open.dart';
@@ -42,7 +36,7 @@ class MyHomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('JKnit Editor', style: TextStyle(fontWeight: FontWeight.bold)),
-            Text('Create Documentation with Embedded Running Code'),
+            Text('Create Documents with Running Code'),
             ElevatedButton(
               key: ValueKey('main.new'),
               onPressed: () {

@@ -10,7 +10,7 @@ class OpenProject extends StatefulWidget {
 }
 
 class OpenProjectState extends State<OpenProject> {
-  String _filepath = 'foo.jmd';
+  String _filepath = 'writeup.jmd';
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class OpenProjectState extends State<OpenProject> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditorPage(filepath: 'writeup.jmd'),
+                  builder: (context) => EditorPage(filepath: _filepath),
                 ),
               );
             },
