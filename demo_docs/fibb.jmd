@@ -1,0 +1,57 @@
+# Recursive Fibbonacci With and Without Cache
+
+The naive recursive Fibbonacci algorithm is infamous
+for being bad. However, caching can make it good!
+
+```cpp
+// C++ code
+#include <iostream>
+#include <chrono>
+#include <map>
+
+int fibb(int n) {
+  if (n < 2) {
+    return n;
+  }
+  return fibb(n - 2) + fibb(n - 1);
+}
+
+int fibb_with_cache(int n) {
+  static std::map<int, int> cache;
+  if (cache.count(n) == 0) {
+    if (n < 2) {
+      cache[n] = n;
+    } else {
+      cache[n] = fibb_with_cache(n - 2) +
+                 fibb_with_cache(n - 1);
+    }
+  }
+  return cache.at(n);
+}
+
+int main() {
+  std::cout << "Without cache:\n";
+  for (int i = 0; i < 30; ++i) {
+    auto a = std::chrono::high_resolution_clock::now();
+    std::cout << i << '\t' << fibb(i) << '\t';
+    auto b = std::chrono::high_resolution_clock::now();
+    std::cout << std::chrono::duration_cast<
+      std::chrono::nanoseconds>(b - a).count() / 1000.0
+      << " us\n";
+  }
+  
+  std::cout << "With cache:\n";
+  for (int i = 0; i < 300; ++i) {
+    auto a = std::chrono::high_resolution_clock::now();
+    std::cout << i << '\t' << fibb_with_cache(i) << '\t';
+    auto b = std::chrono::high_resolution_clock::now();
+    std::cout << std::chrono::duration_cast<
+      std::chrono::nanoseconds>(b - a).count() / 1000.0
+      << " us\n";
+  }
+
+  return 0;
+}
+```
+
+Clearly, caching is very effective!

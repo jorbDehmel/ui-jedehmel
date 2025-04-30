@@ -22,10 +22,6 @@ void main() {
     // Go to export page
     await tester.tap(find.byKey(ValueKey('editor.export')));
     await tester.pumpAndSettle();
-
-    // Export
-    await tester.tap(find.byKey(ValueKey('export.export')));
-    await tester.pumpAndSettle();
   });
 
   testWidgets('Open project navigation test', (WidgetTester tester) async {

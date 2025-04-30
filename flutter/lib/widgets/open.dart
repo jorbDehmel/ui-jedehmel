@@ -22,22 +22,24 @@ class OpenProjectState extends State<OpenProject> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_filepath),
+              Text(_filepath, style: TextStyle(fontFamily: 'mono')),
               Spacer(),
               ElevatedButton(
                 key: ValueKey('open.select_file'),
-                onPressed: () async {
-                  setState(() async {
-                    final result = await openFile();
+                onPressed: () {
+                  openFile().then((result) {
                     if (result != null) {
-                      _filepath = result.path;
+                      setState(() {
+                        _filepath = result.path;
+                      });
                     }
                   });
                 },
-                child: const Text('Select file to open'),
+                child: const Text('Browse'),
               ),
             ],
           ),
+
           Divider(),
           ElevatedButton(
             key: ValueKey('open.editor'),

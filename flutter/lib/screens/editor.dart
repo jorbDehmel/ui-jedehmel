@@ -2,12 +2,7 @@ import "dart:io";
 import "package:flutter/material.dart";
 import "package:re_editor/re_editor.dart";
 import "package:re_highlight/languages/markdown.dart";
-import "package:re_highlight/styles/base16/ia-light.dart";
-import "package:re_highlight/styles/base16/mexico-light.dart";
-import "package:re_highlight/styles/shades-of-purple.dart";
 import "package:re_highlight/styles/stackoverflow-light.dart";
-import "package:re_highlight/styles/tokyo-night-light.dart";
-import "package:re_highlight/styles/xcode.dart";
 import "../widgets/export.dart";
 
 class EditorPage extends StatefulWidget {

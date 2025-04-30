@@ -59,109 +59,116 @@ class ExportState extends State<Export> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(targetFile),
+              Text(targetFile, style: TextStyle(fontFamily: 'mono')),
+              Spacer(),
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    setState(() async {
-                      final FileSaveLocation? result = await getSaveLocation(
-                        suggestedName: targetFile,
-                        acceptedTypeGroups: [
-                          XTypeGroup(label: "MarkDown", extensions: [".md"]),
-                          XTypeGroup(label: "LaTeX", extensions: [".tex"]),
-                        ],
-                      );
-                      if (result != null) {
+                  getSaveLocation(
+                    suggestedName: targetFile,
+                    acceptedTypeGroups: [
+                      XTypeGroup(label: "MarkDown", extensions: [".md"]),
+                      XTypeGroup(label: "LaTeX", extensions: [".tex"]),
+                    ],
+                  ).then((result) {
+                    if (result != null) {
+                      setState(() {
                         targetFile = result.path;
-                      }
-                    });
+                      });
+                    }
                   });
                 },
                 child: const Text('Select Target'),
               ),
             ],
           ),
-          ElevatedButton(
-            key: ValueKey('export.options'),
-            onPressed: () {
-              setState(() {
-                openOptions(context);
-              });
-            },
-            child: const Text('Options'),
-          ),
           Divider(),
-          ElevatedButton(
-            key: ValueKey('export.export'),
-            onPressed: () async {
-              final s = await settings;
+          Row(
+            children: [
+              ElevatedButton(
+                key: ValueKey('export.options'),
+                onPressed: () {
+                  setState(() {
+                    openOptions(context);
+                  });
+                },
+                child: const Text('Options'),
+              ),
+              Spacer(),
+              ElevatedButton(
+                key: ValueKey('export.export'),
+                onPressed: () {
+                  settings.then((s) {
+                    // Prepare system call
+                    List<String> arguments = List<String>.empty(growable: true);
 
-              // Prepare system call
-              List<String> arguments = List<String>.empty(growable: true);
+                    arguments.add(filepath);
+                    arguments.add("-o");
+                    arguments.add(targetFile);
 
-              arguments.add(filepath);
-              arguments.add("-o");
-              arguments.add(targetFile);
+                    if (s.getBool("warnings_to_errors")!) {
+                      arguments.add("-e");
+                    }
+                    if (s.getBool("enable_log")!) {
+                      arguments.add("-l");
+                    }
+                    if (s.getBool("enable_timer")!) {
+                      arguments.add("-t");
+                    }
 
-              if (s.getBool("warnings_to_errors")!) {
-                arguments.add("-e");
-              }
-              if (s.getBool("enable_log")!) {
-                arguments.add("-l");
-              }
-              if (s.getBool("enable_timer")!) {
-                arguments.add("-t");
-              }
+                    if (s.getString("markdown_or_latex")! == "latex") {
+                      if (s.getBool("force_fancy")!) {
+                        arguments.add("-xx");
+                      } else {
+                        arguments.add("-x");
+                      }
+                    }
 
-              if (s.getString("markdown_or_latex")! == "latex") {
-                if (s.getBool("force_fancy")!) {
-                  arguments.add("-xx");
-                } else {
-                  arguments.add("-x");
-                }
-              }
+                    // Place system call (BLOCKING)
+                    var result = Process.runSync('jknit', arguments);
+                    Navigator.pop(context);
 
-              // Place system call (BLOCKING)
-              var result = Process.runSync('jknit', arguments);
-              Navigator.pop(context);
-
-              // Success case
-              if (result.exitCode == 0) {
-                showDialog(
-                  context: context,
-                  builder:
-                      (context) => Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AlertDialog(
-                            content: Center(
-                              child: const Text(
-                                "Success! Your file has been exported.",
+                    // Success case
+                    if (result.exitCode == 0) {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AlertDialog(
+                                  content: Center(
+                                    child: const Text(
+                                      "Success! Your file has been exported.",
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                      );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder:
+                            (context) => Scaffold(
+                              appBar: AppBar(
+                                backgroundColor:
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.inversePrimary,
+                                title: Text("Export ERROR"),
+                              ),
+                              body: Text(
+                                "${result.stderr}\n${result.stdout}\n\n${result.exitCode}",
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                );
-              } else {
-                showDialog(
-                  context: context,
-                  builder:
-                      (context) => Scaffold(
-                        appBar: AppBar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.inversePrimary,
-                          title: Text("Export ERROR"),
-                        ),
-                        body: Text(
-                          "${result.stderr}\n${result.stdout}\n\n${result.exitCode}",
-                        ),
-                      ),
-                );
-              }
-            },
-            child: const Text("Export"),
+                      );
+                    }
+                  });
+                },
+                child: const Text("Export"),
+              ),
+            ],
           ),
         ],
       ),

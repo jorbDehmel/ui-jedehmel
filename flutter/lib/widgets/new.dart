@@ -22,21 +22,20 @@ class NewProjectState extends State<NewProject> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(_filepath),
+              Text(_filepath, style: TextStyle(fontFamily: 'mono')),
               Spacer(),
               ElevatedButton(
                 key: ValueKey('new.select_file'),
-                onPressed: () async {
-                  setState(() async {
-                    final FileSaveLocation? result = await getSaveLocation(
-                      suggestedName: _filepath,
-                    );
+                onPressed: () {
+                  getSaveLocation(suggestedName: _filepath).then((result) {
                     if (result != null) {
-                      _filepath = result.path;
+                      setState(() {
+                        _filepath = result.path;
+                      });
                     }
                   });
                 },
-                child: const Text('Select file to create'),
+                child: const Text('Browse'),
               ),
             ],
           ),
@@ -52,7 +51,7 @@ class NewProjectState extends State<NewProject> {
                 ),
               );
             },
-            child: const Text("Create Project"),
+            child: const Text("Create"),
           ),
         ],
       ),
