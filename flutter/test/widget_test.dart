@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jknit_gui/main.dart';
 
@@ -7,50 +8,32 @@ void main() {
     WidgetController.hitTestWarningShouldBeFatal = true;
 
     await tester.pumpWidget(const JKnitGUIApp());
-    // We should be on the 'main' page
+    // We should be on the 'editor' page
 
-    // Click 'New'
-    await tester.tap(find.byKey(ValueKey('main.new')));
+    // Open new file
+    await tester.press(find.byKey(const ValueKey('editor.menubar.file')));
     await tester.pumpAndSettle();
-
-    // Get to editor
-    await tester.tap(find.byKey(ValueKey('new.editor')));
+    expect(
+      find.byKey(const ValueKey('editor.menubar.file.new')),
+      findsOneWidget,
+    );
+    await tester.press(find.byKey(const ValueKey('editor.menubar.file.new')));
     await tester.pumpAndSettle();
-
-    expect(find.widgetWithText(AppBar, 'writeup.jmd'), findsOneWidget);
+    await tester.sendKeyEvent(LogicalKeyboardKey.enter);
 
     // Go to export page
-    await tester.tap(find.byKey(ValueKey('editor.export')));
+    await tester.press(find.byKey(const ValueKey('editor.menubar.file')));
     await tester.pumpAndSettle();
-  });
+    expect(
+      find.byKey(const ValueKey('editor.menubar.file.export')),
+      findsOneWidget,
+    );
+    await tester.press(
+      find.byKey(const ValueKey('editor.menubar.file.export')),
+    );
 
-  testWidgets('Open project navigation test', (WidgetTester tester) async {
-    WidgetController.hitTestWarningShouldBeFatal = true;
-
-    await tester.pumpWidget(const JKnitGUIApp());
-
-    // Click 'Open'
-    await tester.tap(find.byKey(ValueKey('main.open')));
+    // Export
+    await tester.press(find.byKey(const ValueKey('export.export')));
     await tester.pumpAndSettle();
-
-    await tester.tap(find.byKey(ValueKey('open.editor')));
-    await tester.pumpAndSettle();
-    expect(find.widgetWithText(AppBar, 'writeup.jmd'), findsOneWidget);
-  });
-
-  testWidgets('Help navigation test', (WidgetTester tester) async {
-    WidgetController.hitTestWarningShouldBeFatal = true;
-
-    await tester.pumpWidget(const JKnitGUIApp());
-    // We should be on the 'main' page
-
-    // Click 'Help'
-    await tester.tap(find.byKey(ValueKey('main.help')));
-    await tester.pumpAndSettle();
-    expect(find.widgetWithText(AppBar, 'Help'), findsOneWidget);
-
-    // Find and use the search bar
-    await tester.enterText(find.byKey(ValueKey('help.search')), 'search text');
-    expect(find.widgetWithText(AppBar, 'search text'), findsOneWidget);
   });
 }

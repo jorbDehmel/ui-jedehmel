@@ -190,10 +190,11 @@ class EditorPageState extends State<EditorPage> {
       children: [
         // File
         SubmenuButton(
+          key: ValueKey('editor.menubar.file'),
           menuChildren: [
             // File -> Save
             MenuItemButton(
-              key: ValueKey('editor.save'),
+              key: ValueKey('editor.menubar.file.save'),
               onPressed: saveFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyS,
@@ -203,7 +204,7 @@ class EditorPageState extends State<EditorPage> {
             ),
             // File -> Export
             MenuItemButton(
-              key: ValueKey('editor.export'),
+              key: ValueKey('editor.menubar.file.export'),
               onPressed: exportFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyE,
@@ -213,7 +214,7 @@ class EditorPageState extends State<EditorPage> {
             ),
             // File -> Open
             MenuItemButton(
-              key: ValueKey('editor.open'),
+              key: ValueKey('editor.menubar.file.open'),
               onPressed: openFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyO,
@@ -223,7 +224,7 @@ class EditorPageState extends State<EditorPage> {
             ),
             // File -> Open Recent
             SubmenuButton(
-              key: ValueKey('editor.open_recent'),
+              key: ValueKey('editor.menubar.file.open_recent'),
               menuChildren: List<Widget>.generate(recent.length, (i) {
                 return MenuItemButton(
                   onPressed: () {
@@ -255,9 +256,10 @@ class EditorPageState extends State<EditorPage> {
         ),
         // Help
         SubmenuButton(
+          key: ValueKey('editor.menubar.help'),
           menuChildren: [
             MenuItemButton(
-              key: ValueKey('editor.help'),
+              key: ValueKey('editor.menubar.help.help'),
               onPressed: helpFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyH,
@@ -270,9 +272,10 @@ class EditorPageState extends State<EditorPage> {
         ),
         // Options
         SubmenuButton(
+          key: ValueKey('editor.menubar.options'),
           menuChildren: [
             MenuItemButton(
-              key: ValueKey('editor.options'),
+              key: ValueKey('editor.menubar.options.options'),
               onPressed: optionsFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyP,
