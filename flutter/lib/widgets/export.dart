@@ -6,6 +6,7 @@ import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:jknit_gui/widgets/options.dart';
+import 'package:jknit_gui/widgets/preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Export extends StatefulWidget {
@@ -27,7 +28,7 @@ class ExportState extends State<Export> {
           'enable_timer', // bool
           'markdown_or_latex', // string ('markdown' or 'latex')
           'force_fancy', // bool
-          'settings_files', // List of filepath strings
+          'settings_files', // List of filepath strings (not supported)
         },
       ),
     );
@@ -88,7 +89,7 @@ class ExportState extends State<Export> {
                 key: ValueKey('export.options'),
                 onPressed: () {
                   setState(() {
-                    openOptions(context);
+                    openOptionsScreen(context);
                   });
                 },
                 child: const Text('Options'),
@@ -129,23 +130,70 @@ class ExportState extends State<Export> {
 
                     // Success case
                     if (result.exitCode == 0) {
-                      showDialog(
-                        context: context,
-                        builder:
-                            (context) => Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                AlertDialog(
-                                  content: Center(
-                                    child: const Text(
-                                      "Success! Your file has been exported.",
+                      if (s.getString("markdown_or_latex")! == "markdown") {
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  AlertDialog(
+                                    content: Center(
+                                      child: Column(
+                                        children: [
+                                          Text(result.stdout),
+                                          const Divider(),
+                                          const Text(
+                                            "Success! Your file has been exported.",
+                                          ),
+                                          const Divider(),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder:
+                                                      (context) => Preview(
+                                                        filepath: targetFile,
+                                                      ),
+                                                ),
+                                              );
+                                            },
+                                            child: const Text("View"),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                      );
+                                ],
+                              ),
+                        );
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder:
+                              (context) => Column(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  AlertDialog(
+                                    content: Center(
+                                      child: Column(
+                                        children: [
+                                          Text(result.stdout),
+                                          const Divider(),
+                                          const Text(
+                                            "Success! Your file has been exported.",
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                        );
+                      }
                     } else {
                       showDialog(
                         context: context,
