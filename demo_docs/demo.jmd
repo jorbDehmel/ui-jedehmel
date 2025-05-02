@@ -1,0 +1,50 @@
+
+# JKnit Demo
+
+JKnit is a powerful literate programming tool which
+allows coders to "knit" ccode chunks of arbitrary
+language along with documentation.
+
+Many language are built-in, including `python`:
+
+```python
+print('Hi from python!')
+```
+
+`C`:
+
+```c
+#include <stdio.h>
+int main() {
+  puts("Hi from C!");
+  return 0;
+}
+```
+
+`C++`:
+
+```cpp
+#include <iostream>
+int main() {
+  std::cout << "Hi from C++!\n";
+  return 0;
+}
+```
+
+`bash`:
+
+```bash
+echo "Hi from bash!"
+```
+
+`Oak` (my pet language):
+
+```oak
+include!("std/io.oak");
+let main() -> i32 {
+  print("Hi from Oak!\n");
+  return 0i32;
+}
+```
+
+And, if you want to extend it, literally any other language!

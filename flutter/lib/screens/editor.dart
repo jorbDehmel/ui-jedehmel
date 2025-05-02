@@ -9,6 +9,12 @@ import "package:re_editor/re_editor.dart";
 import "package:re_highlight/languages/markdown.dart";
 import "package:re_highlight/styles/stackoverflow-light.dart";
 
+const defaultText =
+    "\n# Hello, world!\n\nHere is some normal text.\n"
+    "The following is running `python` code.\n\n"
+    "```python\nprint('Hello, world!')\n```\n\n"
+    "When exported, the output will be inserted here.\n";
+
 class EditorPage extends StatefulWidget {
   const EditorPage({super.key, required this.filepath});
   final String? filepath;
@@ -48,11 +54,7 @@ class EditorPageState extends State<EditorPage> {
       });
     } else {
       // Default file contents
-      controller.text =
-          "\n# Hello, world!\n\nHere is some normal text.\n"
-          "The following is running `python` code.\n\n"
-          "```python\nprint('Hello, world!')\n```\n\n"
-          "When exported, the output will be inserted here.\n";
+      controller.text = defaultText;
     }
 
     loadPreferences().then((prefs) {
@@ -148,6 +150,7 @@ class EditorPageState extends State<EditorPage> {
         if (result != null) {
           setState(() {
             filepath = result.path;
+            controller.text = defaultText;
           });
         }
       });
@@ -162,6 +165,11 @@ class EditorPageState extends State<EditorPage> {
         if (result != null) {
           setState(() {
             filepath = result.path;
+            result.readAsString().then((str) {
+              setState(() {
+                controller.text = str;
+              });
+            });
           });
         }
       });

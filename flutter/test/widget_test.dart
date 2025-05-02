@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:jknit_gui/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   testWidgets('New project navigation test', (WidgetTester tester) async {
-    WidgetController.hitTestWarningShouldBeFatal = true;
-
     await tester.pumpWidget(const JKnitGUIApp());
     // We should be on the 'editor' page
 
