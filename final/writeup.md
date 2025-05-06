@@ -1,19 +1,46 @@
-<!-- TODO: purpose, reqs, audience, user stories,
-     first iteration, design choices, conclusion -->
 
 # User Interface Design Final Report
 
 Jordan Dehmel, 2025
 
+---
+
+**Creating an Open-Source Text Editor for Static Documents with
+Embedded Running Code**
+
+**Abstract:** When preparing documents in math or computer
+science courses, PDFs with embedded running code are often
+desirable. R-markdown (RMD) is one solution to this, but is
+embedded in the large rstudio application. Previous work has
+created the JKnit literate programming tool, which is a
+lightweight and generic command-line alternative to RMD: The
+current project details iteration on a graphical text editor for
+JKnit as the final project of CSCI 337 (User Interface Design).
+
+---
+
 ## Purpose
+
+TODO
 
 ## Requirements
 
+TODO
+
 ## Audience
 
-## User Stories
+TODO
+
+## User Stories (See also UI Test)
+
+TODO
 
 ## First Iteration
+
+The first major iterations were as follows:
+1. Paper version
+2. Android version
+3. First Flutter iteration
 
 ### Paper UI
 
@@ -102,7 +129,50 @@ settings" submenu would likely solve these problems. The menu's
 "edit" button should also say something more like "open", and
 the help menu should be more intuitive.
 
+### First Flutter Iteration
+
+The first Flutter iteration was a proof-of-concept. The goal was
+not so much to make a *pretty* app, but to make a *functional*
+app. Accordingly, it is sparse and bland but functional.
+
+![](../flutter-assignment/1.png)
+![](../flutter-assignment/2.png)
+![](../flutter-assignment/3.png)
+![](../flutter-assignment/4.png)
+![](../flutter-assignment/5.png)
+![](../flutter-assignment/6.png)
+![](../flutter-assignment/7.png)
+![](../flutter-assignment/8.png)
+![](../flutter-assignment/9.png)
+
+This is a good place to start, and more-or-less reflects the
+original paper design.
+
 ## Design Choices Make on UI/UX Principles
+
+1. Removed home screen, replaced with most recent file editor
+    - Users will not usually need this intro: It would only be
+        helpful for first-time users
+2. Replaced `New` and `Open` with system dialogues
+    - They had previously only contained a button that opened
+        the system dialogues, and thus were redundant
+    - This choice avoids an additional unnecessary step which
+        might have confused or annoyed users
+3. Removed initially proposed file bar on left-hand-side of
+    editor
+    - A `jmd` document is a single file, so I realized that it
+        was not necessary to have a vscode-style file selector.
+        A single file being open is fine
+    - This eliminates wasted space on the screen and removes an
+        opportunity for the user to be confused
+4. Made the `Export` screen a pop-up dialogue
+5. Centered options in the middle of the screen
+6. Left-aligned option labels and right-aligned option toggles
+7. Made export error/success a pop-up
+8. Added system-style file bar at top of editor
+9. Added traditional key bindings in editor
+10. Added `recents` tray in editor
+11. Added `View` option for exported Markdown documents
 
 ## Final Product
 
@@ -112,5 +182,14 @@ the help menu should be more intuitive.
 ![](4.png)
 ![](5.png)
 ![](6.png)
+![](7.png)
+![](8.png)
+![](9.png)
+
+## Final Unit Testing
+
+TODO
 
 ## Conclusion
+
+TODO
