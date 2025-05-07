@@ -2,12 +2,29 @@
 Export widget for jknit. This allows options and places the actual system call.
 */
 
+import 'dart:convert';
+
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:jknit_gui/widgets/options.dart';
 import 'package:jknit_gui/widgets/preview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+class SystemWrapper {
+  ProcessResult Function(
+    String executable,
+    List<String> arguments, {
+    String? workingDirectory,
+    Map<String, String>? environment,
+    bool includeParentEnvironment,
+    bool runInShell,
+    Encoding? stdoutEncoding,
+    Encoding? stderrEncoding,
+  })
+  systemCall = Process.runSync;
+  static SystemWrapper instance = SystemWrapper();
+}
 
 class Export extends StatefulWidget {
   const Export({super.key, required this.filepath});
@@ -36,7 +53,7 @@ class ExportState extends State<Export> {
     settings.then((resolved) {
       if (targetFile.startsWith("$filepath.")) {
         setState(() {
-          if (resolved.getString("markdown_or_latex")! == "latex") {
+          if ((resolved.getString("markdown_or_latex") ?? "latex") == "latex") {
             targetFile = "$filepath.tex";
           } else {
             targetFile = "$filepath.md";
@@ -106,18 +123,19 @@ class ExportState extends State<Export> {
                     arguments.add("-o");
                     arguments.add(targetFile);
 
-                    if (s.getBool("warnings_to_errors")!) {
+                    if (s.getBool("warnings_to_errors") ?? false) {
                       arguments.add("-e");
                     }
-                    if (s.getBool("enable_log")!) {
+                    if (s.getBool("enable_log") ?? false) {
                       arguments.add("-l");
                     }
-                    if (s.getBool("enable_timer")!) {
+                    if (s.getBool("enable_timer") ?? false) {
                       arguments.add("-t");
                     }
 
-                    if (s.getString("markdown_or_latex")! == "latex") {
-                      if (s.getBool("force_fancy")!) {
+                    if ((s.getString("markdown_or_latex") ?? "latex") ==
+                        "latex") {
+                      if (s.getBool("force_fancy") ?? false) {
                         arguments.add("-xx");
                       } else {
                         arguments.add("-x");
@@ -125,12 +143,16 @@ class ExportState extends State<Export> {
                     }
 
                     // Place system call (BLOCKING)
-                    var result = Process.runSync('jknit', arguments);
+                    var result = SystemWrapper.instance.systemCall(
+                      'jknit',
+                      arguments,
+                    );
                     Navigator.pop(context);
 
                     // Success case
                     if (result.exitCode == 0) {
-                      if (s.getString("markdown_or_latex")! == "markdown") {
+                      if ((s.getString("markdown_or_latex") ?? "latex") ==
+                          "markdown") {
                         showDialog(
                           context: context,
                           builder:

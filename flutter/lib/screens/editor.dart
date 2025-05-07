@@ -15,6 +15,13 @@ const defaultText =
     "```python\nprint('Hello, world!')\n```\n\n"
     "When exported, the output will be inserted here.\n";
 
+class FileWrapper {
+  var openFileFn = openFile;
+  var getSaveLocationFn = getSaveLocation;
+
+  static FileWrapper instance = FileWrapper();
+}
+
 class EditorPage extends StatefulWidget {
   const EditorPage({super.key, required this.filepath});
   final String? filepath;
@@ -141,38 +148,42 @@ class EditorPageState extends State<EditorPage> {
     }
 
     newFn() {
-      getSaveLocation(
-        suggestedName: filepath,
-        acceptedTypeGroups: [
-          XTypeGroup(label: 'JKnit Document', extensions: ['.jmd']),
-        ],
-      ).then((result) {
-        if (result != null) {
-          setState(() {
-            filepath = result.path;
-            controller.text = defaultText;
+      FileWrapper.instance
+          .getSaveLocationFn(
+            suggestedName: filepath,
+            acceptedTypeGroups: [
+              XTypeGroup(label: 'JKnit Document', extensions: ['.jmd']),
+            ],
+          )
+          .then((result) {
+            if (result != null) {
+              setState(() {
+                filepath = result.path;
+                controller.text = defaultText;
+              });
+            }
           });
-        }
-      });
     }
 
     openFn() {
-      openFile(
-        acceptedTypeGroups: [
-          XTypeGroup(label: 'JKnit Document', extensions: ['.jmd']),
-        ],
-      ).then((result) {
-        if (result != null) {
-          setState(() {
-            filepath = result.path;
-            result.readAsString().then((str) {
+      FileWrapper.instance
+          .openFileFn(
+            acceptedTypeGroups: [
+              XTypeGroup(label: 'JKnit Document', extensions: ['.jmd']),
+            ],
+          )
+          .then((result) {
+            if (result != null) {
               setState(() {
-                controller.text = str;
+                filepath = result.path;
+                result.readAsString().then((str) {
+                  setState(() {
+                    controller.text = str;
+                  });
+                });
               });
-            });
+            }
           });
-        }
-      });
     }
 
     exportFn() {
@@ -251,7 +262,7 @@ class EditorPageState extends State<EditorPage> {
             ),
             // File -> New
             MenuItemButton(
-              key: ValueKey('editor.new'),
+              key: ValueKey('editor.menubar.file.new'),
               onPressed: newFn,
               shortcut: const SingleActivator(
                 LogicalKeyboardKey.keyN,

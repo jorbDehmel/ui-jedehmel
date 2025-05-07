@@ -2,6 +2,8 @@ a.md
 a.tex
 jknit.*
 *_jknit.*
+TESTING_FILE.*
+coverage/
 
 # See https://www.dartlang.org/guides/libraries/private-files
 
