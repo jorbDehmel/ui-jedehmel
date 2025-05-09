@@ -20,6 +20,12 @@ jobs:
       with:
         flutter-version: "3.7.2"
 
+    - name: Get dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y ninja-build build-essential libgtk-3-dev
+        cd flutter && flutter pub get
+
     - name: Run tests
       run: |
-        cd flutter && flutter pub get && flutter test
+        cd flutter && flutter test
